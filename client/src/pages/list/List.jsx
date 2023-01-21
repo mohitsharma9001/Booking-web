@@ -96,7 +96,7 @@ const [openDate,setOpenDate]= React.useState(false)
           <SearchItem />
           <SearchItem />
           <SearchItem />
-          <SearchItem />
+          
         </div>
       </div>
     </div>

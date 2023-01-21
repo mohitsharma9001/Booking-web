@@ -44,7 +44,7 @@ export const PropertyList = () => {
       />
       <div className="pListTitles">
         <h1>Villas</h1>
-        <h2>2331 hotels</h2>
+        <h2>201 hotels</h2>
       </div>
     </div>
     <div className="pListItem">
