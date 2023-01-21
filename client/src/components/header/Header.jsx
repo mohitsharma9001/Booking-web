@@ -1,14 +1,17 @@
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import './header.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBed, faCar, faPlane, faTaxi, faCalendarDays, faPerson} from '@fortawesome/free-solid-svg-icons'
 import { DateRange } from 'react-date-range';
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { format } from "date-fns";
+import { format, previousDay } from "date-fns";
 
-export const Header = () => {
+export const Header = ({type}) => {
   const [openDate,setOpneDate] = React.useState(false)
+  const [destination,setDestination] = React.useState("")
+
  const [date,setDate] = React.useState([
   {
     startDate : new Date(),
@@ -23,9 +26,24 @@ export const Header = () => {
   room : 1
  })
 
+ const handleOption = (name,oprations)=>{
+  setOptions((prev)=>{
+    return {
+    ...prev,
+    [name] : oprations === 'i' ? options[name]+1 :options[name]-1
+  }
+})
+ }
+
+ const navigate = useNavigate()
+
+ const handleSearch = ()=>{
+   navigate('/hotels',{state :{destination,date,options}})
+ }
+
   return (
     <div className='header'>
-        <div className="headerContainer">
+        <div className={type === 'list' ? "headerContainer listMode" : "headerContainer"}>
         
         
         <div className="headerList">
@@ -52,7 +70,8 @@ export const Header = () => {
         </div>
         
         
-        <h1 className="headerTitle">A lifetime of discounts? it's a Genius.</h1>
+        { type !== 'list' &&
+        <> <h1 className="headerTitle">A lifetime of discounts? it's a Genius.</h1>
         <p className="headerDesc">
         Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
@@ -67,6 +86,7 @@ export const Header = () => {
                   type="text"
                   placeholder="Where are you going?"
                   className="headerSearchInput"
+                  onChange={(e)=>setDestination(e.target.value)}
                 />
             </div>
         
@@ -89,13 +109,13 @@ export const Header = () => {
 
           <div className="headerSearchItem">
             <FontAwesomeIcon icon={faPerson} className="headerIcon" />
-               <span className='headerSearchText'>{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
-              <div className="options">
+               <span onClick={()=>setOpenOptions(!openOptions)} className='headerSearchText'>{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
+              {openOptions && <div className="options">
                 <div className="optionItem">
                   <span className="optionText">Adults</span>
                   <div className="optionCounter">
-                  <button className="optionCounterButton" onClick={()=>handleOption("adult",'d')}>-</button>
-                  <span className="optionCounterNumber">1</span>
+                  <button disabled={options.adult<=1} className="optionCounterButton" onClick={()=>handleOption("adult",'d')}>-</button>
+                  <span className="optionCounterNumber">{options.adult}</span>
                   <button className="optionCounterButton" onClick={()=>handleOption("adult",'i')}>+</button>
                   </div>
                 </div>
@@ -103,8 +123,8 @@ export const Header = () => {
                 <div className="optionItem">
                   <span className="optionText">Children</span>
                   <div className="optionCounter">
-                  <button className="optionCounterButton" onClick={()=>handleOption("children",'d')}>-</button>
-                  <span className="optionCounterNumber">1</span>
+                  <button disabled={options.children<=0} className="optionCounterButton" onClick={()=>handleOption("children",'d')}>-</button>
+                  <span className="optionCounterNumber">{options.children}</span>
                   <button className="optionCounterButton" onClick={()=>handleOption("children",'i')}>+</button>
                   </div>
                 </div>
@@ -113,21 +133,21 @@ export const Header = () => {
                 <div className="optionItem">
                   <span className="optionText">Room</span>
                   <div className="optionCounter">
-                  <button className="optionCounterButton" onClick={()=>handleOption("room",'d')}>-</button>
-                  <span className="optionCounterNumber">1</span>
+                  <button disabled={options.room<=1} className="optionCounterButton" onClick={()=>handleOption("room",'d')}>-</button>
+                  <span className="optionCounterNumber">{options.room}</span>
                   <button className="optionCounterButton" onClick={()=>handleOption("room",'i')}>+</button>
                   </div>
                 </div>
-              </div>
+              </div>}
             
             </div>
         
         
             <div className="headerSearchItem">
-           <button className='headerBtn'>Search</button>
+           <button className='headerBtn' onClick={handleSearch  }>Search</button>
             </div>
         
-        </div>
+        </div> </>}
         </div>
     </div>
   )
