@@ -10,7 +10,7 @@ export const Feature = () => {
           className="featuredImg"
         />
         <div className="featuredTitles">
-          <h1>Dublin</h1>
+          <h1>Jaipur</h1>
           <h2>123 properties</h2>
         </div>
       </div>
@@ -22,7 +22,7 @@ export const Feature = () => {
           className="featuredImg"
         />
         <div className="featuredTitles">
-          <h1>Reno</h1>
+          <h1>Mumbai</h1>
           <h2>533 properties</h2>
         </div>
       </div>
@@ -33,7 +33,7 @@ export const Feature = () => {
           className="featuredImg"
         />
         <div className="featuredTitles">
-          <h1>Austin</h1>
+          <h1>Udaipur</h1>
           <h2>532 properties</h2>
         </div>
       </div>
